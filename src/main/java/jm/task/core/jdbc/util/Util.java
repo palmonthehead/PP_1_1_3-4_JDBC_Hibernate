@@ -1,6 +1,8 @@
 package jm.task.core.jdbc.util;
 
 import java.util.Properties;
+import java.util.logging.Logger;
+
 
 import jm.task.core.jdbc.model.User;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -13,6 +15,7 @@ import org.hibernate.service.ServiceRegistry;
 public class Util {
 
     private static SessionFactory sessionFactory;
+    private static final Logger logger = Logger.getLogger(Util.class.getName());
 
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
@@ -37,8 +40,9 @@ public class Util {
                         .applySettings(configuration.getProperties()).build();
 
                 sessionFactory = configuration.buildSessionFactory(serviceRegistry);
+                logger.info("Connection established");
             } catch (Exception e) {
-                e.printStackTrace();
+                logger.severe("Connection failed");
             }
         }
         return sessionFactory;
